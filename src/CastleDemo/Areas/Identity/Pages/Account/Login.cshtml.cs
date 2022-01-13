@@ -91,7 +91,7 @@ namespace CastleDemo.Areas.Identity.Pages.Account
                     _logger.LogInformation("User logged in.");
 
                     // Castle Authenticate $login.succeeded
-                    _castleClient.Authenticate(CreateCastleActionRequest(Castle.Events.LoginSucceeded)).Forget();
+                    _castleClient.Authenticate(CreateCastleActionRequest("$login.succeeded")).Forget();
 
                     return LocalRedirect(returnUrl);
                 }
@@ -107,7 +107,7 @@ namespace CastleDemo.Areas.Identity.Pages.Account
                 else
                 {
                     // Castle Track $login.failed
-                    _castleClient.Track(CreateCastleActionRequest(Castle.Events.LoginFailed)).Forget();
+                    _castleClient.Track(CreateCastleActionRequest("$login.failed")).Forget();
 
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
