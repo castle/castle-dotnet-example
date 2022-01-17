@@ -1,0 +1,19 @@
+@page
+@model FilterModel
+
+@{
+    ViewData["Title"] = "Filter";
+}
+
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <span>A sample Filter request has been sent. Click below to resend</span>
+        @using (Html.BeginForm(null, null, null, FormMethod.Get))
+        {
+            <button type="submit" class="btn btn-primary" onclick="@Model.SendFilter()">Send Filter</button>
+        }
+    </div>
+</div>

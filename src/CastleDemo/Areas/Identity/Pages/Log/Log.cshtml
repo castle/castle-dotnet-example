@@ -1,0 +1,19 @@
+@page
+@model LogModel
+
+@{
+    ViewData["Title"] = "Log";
+}
+
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <span>A sample Log request has been sent. Click below to resend</span>
+        @using (Html.BeginForm(null, null, null, FormMethod.Get))
+        {
+            <button type="submit" class="btn btn-primary" onclick="@Model.SendLog()">Send Log</button>
+        }
+    </div>
+</div>
