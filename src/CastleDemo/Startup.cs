@@ -2,7 +2,6 @@ using Castle;
 using Castle.Config;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,12 +34,12 @@ namespace CastleDemo
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseInMemoryDatabase("CastleDemo")
             );
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
+            services.AddIdentityCore<IdentityUser>()
+                .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             // Castle IoC setup
             services.AddSingleton(new CastleClient(new CastleConfiguration(Configuration["Castle:ApiSecret"])));
