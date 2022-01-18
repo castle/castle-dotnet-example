@@ -8,7 +8,7 @@ The example is almost fully from the default Visual Studio template for a Razor 
 
 ### Framework
 
-ASP&#46;NET Core 6.0
+NET Core 6.0
 
 ### Template modifications
 
