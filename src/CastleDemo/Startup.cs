@@ -39,7 +39,7 @@ namespace CastleDemo
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Latest);
 
             // Castle IoC setup
             services.AddSingleton(new CastleClient(new CastleConfiguration(Configuration["Castle:ApiSecret"])));
