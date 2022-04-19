@@ -76,7 +76,7 @@ namespace CastleDemo.Areas.Identity.Pages.Filter
             {
                 Type = castleEvent,
                 Status = "$attempted",
-                Name = "profile update",
+                Name = "custom event",
                 User = user,
                 Changeset = changeset,
                 Properties = properties,
