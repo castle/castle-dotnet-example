@@ -24,9 +24,19 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseInMemoryDatabase("CastleDemo"));
 
-builder.Services.AddIdentityCore<IdentityUser>()
-    .AddDefaultUI()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentityCore<IdentityUser>(options =>
+{
+    // Configure identity options
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 1;
+})
+.AddDefaultUI()
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
 
 // Add authentication services
 builder.Services.AddAuthentication(options =>

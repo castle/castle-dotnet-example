@@ -1,5 +1,4 @@
 
-
 using Castle;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,13 +17,12 @@ namespace CastleDemo.Areas.Identity.Pages.Filter
     public class FilterModel : PageModel
     {
 
-        private readonly _configuration;
+        private readonly IConfiguration _configuration;
         private readonly CastleClient _castleClient;
         public FilterModel(
             CastleClient castleClient, IConfiguration configuration
             )
         {
-
             _castleClient = castleClient;
             _configuration = configuration;
         }
@@ -90,9 +88,4 @@ namespace CastleDemo.Areas.Identity.Pages.Filter
             };
         }
     }
-
-
-
-
-
 }

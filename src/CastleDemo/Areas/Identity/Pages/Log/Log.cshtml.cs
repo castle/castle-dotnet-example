@@ -69,7 +69,7 @@ namespace CastleDemo.Areas.Identity.Pages.Log
                 User = user,
                 Properties = properties,
                 AuthenticationMethod = authMethod,
-                RequestToken = RequestToken = _configuration["Castle:TestRequestToken"]
+                RequestToken = _configuration["Castle:TestRequestToken"],
                 Context = Castle.Context.FromHttpRequest(Request)
             };
         }
