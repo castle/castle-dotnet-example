@@ -1,24 +1,70 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Castle;
+using Castle.Config;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using CastleDemo.Data;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity.UI;
 
-namespace CastleDemo
+var builder = WebApplication.CreateBuilder(args);
+
+// -- Services --
+builder.Services.Configure<CookiePolicyOptions>(options =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseInMemoryDatabase("CastleDemo"));
+
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddDefaultUI()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Add authentication services
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+})
+.AddIdentityCookies();
+
+builder.Services.AddControllersWithViews();
+
+// Castle configuration
+var castleConfig = new CastleConfiguration(builder.Configuration["Castle:ApiSecret"]);
+
+builder.Services.AddSingleton(new CastleClient(castleConfig));
+
+var app = builder.Build();
+
+// -- Middleware Pipeline --
+if (app.Environment.EnvironmentName != "Development")
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
 }
+else
+{
+    app.UseDeveloperExceptionPage();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
+app.UseCookiePolicy();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapDefaultControllerRoute();
+app.MapRazorPages();
+
+app.Run();

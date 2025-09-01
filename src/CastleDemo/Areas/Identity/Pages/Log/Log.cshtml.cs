@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.Threading;
 using System.Threading.Tasks;
 using System;
+using Microsoft.Extensions.Configuration;
 
 namespace CastleDemo.Areas.Identity.Pages.Log
 {
@@ -17,10 +18,14 @@ namespace CastleDemo.Areas.Identity.Pages.Log
     {
 
         private readonly CastleClient _castleClient;
+        private readonly IConfiguration _configuration;
         public LogModel(
-            CastleClient castleClient)
+            CastleClient castleClient,
+            IConfiguration configuration
+            )
         {
             _castleClient = castleClient;
+            _configuration = configuration;
         }
 
         public async Task<ActionResult> SendLog()
@@ -64,7 +69,7 @@ namespace CastleDemo.Areas.Identity.Pages.Log
                 User = user,
                 Properties = properties,
                 AuthenticationMethod = authMethod,
-                RequestToken = "vru9P7qwelbdOiFyGPavoPdJNX9_7mTjsOtQ-2ewrl8qFLNILm_HcXtLrQwMmDNYExujcTMqu2IhWLNYZB3OA-K45FlZjLFUdBOzI0-b_jNRdt8wSjCGchs_mwtCcdczXGyTEn8_gmwFL4h8fHbdah8kkyQdK5p8am_DME5I1j5gdsdzHiyEchgpk3RgV-cRZzOTMEJ01nxsetA3RDaTH0Nt3DFOMIpqBS-daB0ph3IaLoN8eH7VPVl2nGkYKJ1vHT_2OEwwimoFL51tGyqHch0t31RKK4Q-TyyFbFwctNcri7s5Ty_WPR150MB9Xv0bZ1qTdGJxxzlHM5MVRWvWMANNmnxjW5MbWX7DNEJ8wHwdLIN8b3bBOUhrgBgaLpMqWECGAxs_wy90KuxsBz_3b28ugnEZKZ1uGzGCbBsxhG8ZKpr4Py-CcxsunG0SKINwCy-CZhsviWwbsLtcnj526q_Us48qwjAozB9YX9xS3FgPYkxeY9ezwSupCJ8ryHTojNcN44mqEupSq8zmSaXRGm1fd1wrH7OxxvJescZ35zR_d9fmkXTYGW77Pwy1F79cLR-zfhrg",
+                RequestToken = RequestToken = _configuration["Castle:TestRequestToken"]
                 Context = Castle.Context.FromHttpRequest(Request)
             };
         }

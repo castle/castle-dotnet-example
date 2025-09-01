@@ -24,8 +24,6 @@
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
 
-    <!-- Castle client side fingerprinting -->
-    <script src="@("https://d2t77mnxyo7adj.cloudfront.net/v1/c.js?" + Configuration["Castle:AppId"])"></script>
 
     <!-- Update Castle's client side with user details -->
     @if (SignInManager.IsSignedIn(User))
