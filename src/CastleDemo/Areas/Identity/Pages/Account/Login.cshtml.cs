@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -122,6 +122,9 @@ namespace CastleDemo.Areas.Identity.Pages.Account
         {
             var user = _context.Users.SingleOrDefault(x => x.Email == Input.Email);
 
+            var context = Castle.Context.FromHttpRequest(Request);
+            context.Ip = "1.2.3.4";
+
             return new ActionRequest()
             {
                 Event = castleEvent,
@@ -131,7 +134,7 @@ namespace CastleDemo.Areas.Identity.Pages.Account
                     ["email"] = Input.Email
                     // We should also include "registered_at", but the template web app doesn't save that information
                 },
-                Context = Castle.Context.FromHttpRequest(Request)
+                Context = context
             };
         }
     }

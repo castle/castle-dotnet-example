@@ -13,7 +13,7 @@
         <span>A sample Risk request has been sent. Click below to resend</span>
         @using (Html.BeginForm(null, null, null, FormMethod.Get))
         {
-            <button type="submit" class="btn btn-primary" onclick="@Model.SendRisk()">Send Risk</button>
+            <button type="submit" class="btn btn-primary" onclick="@Model.SendRiskAsync()">Send Risk</button>
         }
     </div>
 </div>
