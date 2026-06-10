@@ -5,6 +5,10 @@ on:
     branches: [main, master]
   pull_request:
 
+# TEMPORARY: Castle.Sdk 3.0.0 is not yet on NuGet, so the samples are built against
+# the SDK source from castle-dotnet#80 (branch modernize-and-3.0.0-api) via
+# scripts/set-sdk-version.sh. Once 3.0.0 is published, remove the "Build Castle.Sdk
+# from source" steps so the samples restore Castle.Sdk straight from NuGet.
 jobs:
   core:
     name: ASP.NET Core sample (Linux)
@@ -13,7 +17,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Build Castle.Sdk from castle-dotnet#80
+        run: ./scripts/set-sdk-version.sh modernize-and-3.0.0-api
       - run: dotnet build src/CastleDemo/CastleDemo.csproj -c Release
 
   framework:
@@ -23,5 +31,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Build Castle.Sdk from castle-dotnet#80
+        run: ./scripts/set-sdk-version.sh modernize-and-3.0.0-api
+        shell: bash
       - run: dotnet build src/CastleDemo.Framework/CastleDemo.Framework.csproj -c Release

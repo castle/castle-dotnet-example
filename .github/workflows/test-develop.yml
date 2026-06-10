@@ -1,13 +1,17 @@
 name: Test against SDK develop
 
-# Exercises the example apps against the unreleased Castle .NET SDK (develop
-# branch). Castle.Sdk is consumed as a NuGet package, so we clone, build and pack
-# the develop branch into a local feed and build the samples against it.
+# Exercises the example apps against the unreleased Castle .NET SDK. Castle.Sdk is
+# consumed as a NuGet package, so we clone, build and pack the SDK branch into a
+# local feed and build the samples against it.
+#
+# TEMPORARY: 3.0.0 lives in castle-dotnet#80 (branch modernize-and-3.0.0-api), not
+# yet on develop, so we track that branch for now. Switch back to `develop` once
+# #80 merges.
 #
 # This is the permanent test/sdk-develop branch: every push to it runs the suite
-# against the latest develop. Nightly/manual runs require this file to also live
-# on the default branch (GitHub only honours schedule/workflow_dispatch from the
-# default branch).
+# against the tracked SDK branch. Nightly/manual runs require this file to also
+# live on the default branch (GitHub only honours schedule/workflow_dispatch from
+# the default branch).
 on:
   push:
     branches: [test/sdk-develop]
@@ -26,8 +30,8 @@ jobs:
           dotnet-version: |
             8.0.x
             10.0.x
-      - name: Build Castle.Sdk from the develop branch
-        run: ./scripts/set-sdk-version.sh develop
+      - name: Build Castle.Sdk from castle-dotnet#80
+        run: ./scripts/set-sdk-version.sh modernize-and-3.0.0-api
       - run: dotnet build src/CastleDemo/CastleDemo.csproj -c Release
 
   framework:
@@ -40,7 +44,7 @@ jobs:
           dotnet-version: |
             8.0.x
             10.0.x
-      - name: Build Castle.Sdk from the develop branch
-        run: ./scripts/set-sdk-version.sh develop
+      - name: Build Castle.Sdk from castle-dotnet#80
+        run: ./scripts/set-sdk-version.sh modernize-and-3.0.0-api
         shell: bash
       - run: dotnet build src/CastleDemo.Framework/CastleDemo.Framework.csproj -c Release
