@@ -69,4 +69,4 @@ A minimal `net48` console app that adapts a `System.Web` request to
 dotnet run --project src/CastleDemo.Framework/CastleDemo.Framework.csproj
 ```
 
-This sample requires `Castle.Sdk` **2.4.0** or newer (the first version with a `net48` target).
+This sample requires `Castle.Sdk` **3.0.0** or newer (the first version with a `net48` target).

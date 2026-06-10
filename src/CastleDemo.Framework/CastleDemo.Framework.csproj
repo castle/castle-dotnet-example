@@ -7,8 +7,8 @@
     <AssemblyName>CastleDemo.Framework</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <!-- net48 support is available from Castle.Sdk 2.4.0 onwards. -->
-    <PackageReference Include="Castle.Sdk" Version="2.4.0" />
+    <!-- net48 support is available from Castle.Sdk 3.0.0 onwards. -->
+    <PackageReference Include="Castle.Sdk" Version="3.0.0" />
     <Reference Include="System.Web" />
   </ItemGroup>
 </Project>
