@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.Threading;
 
 namespace CastleDemo.Areas.Identity.Pages.Account
 {
@@ -90,8 +89,8 @@ namespace CastleDemo.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User logged in.");
 
-                    // Castle Authenticate $login.succeeded
-                    _castleClient.Authenticate(CreateCastleActionRequest("$login.succeeded")).Forget();
+                    // Castle Authenticate $login.succeeded (fire-and-forget)
+                    _ = _castleClient.Authenticate(CreateCastleActionRequest("$login.succeeded"));
 
                     return LocalRedirect(returnUrl);
                 }
@@ -106,8 +105,8 @@ namespace CastleDemo.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    // Castle Track $login.failed
-                    _castleClient.Track(CreateCastleActionRequest("$login.failed")).Forget();
+                    // Castle Track $login.failed (fire-and-forget)
+                    _ = _castleClient.Track(CreateCastleActionRequest("$login.failed"));
 
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();

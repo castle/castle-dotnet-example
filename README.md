@@ -1,39 +1,70 @@
 # Castle .NET Example
 
-This is an example of integrating Castle with a standard ASP&#46;NET Core Razor Pages application.
+Examples of integrating Castle into .NET applications. The repository contains two samples:
 
-## Foundation
+| Sample | Path | Target | Notes |
+| --- | --- | --- | --- |
+| ASP.NET Core Razor Pages | `src/CastleDemo` | `net8.0` | The main, cross-platform sample. |
+| .NET Framework console | `src/CastleDemo.Framework` | `net48` | Exercises the `System.Web` code path; builds and runs on Windows. |
 
-The example is almost fully from the default Visual Studio template for a Razor Pages app with _Invididual user accounts_ for authentication.
+## ASP.NET Core sample (`src/CastleDemo`)
 
-### Framework
+A Razor Pages app based on the default template with _Individual user accounts_ for
+authentication. The home page lists the available demos (see `Demos/DemoCatalog.cs`),
+each of which triggers a Castle API call.
 
-NET Core 6.0
+### Highlights
 
-### Template modifications
-
-- The database runs in-memory
+- Targets `net8.0` and uses minimal hosting (`Program.cs`); there is no `Startup.cs`.
+- The database runs in-memory:
 
 ```csharp
-services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseInMemoryDatabase("CastleDemo")
-);
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseInMemoryDatabase("CastleDemo"));
 ```
 
-- Visual Studio scaffolding has been used to create a Login page we can alter, as described by Microsoft [here](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/scaffold-identity).
-- We use [Microsoft.VisualStudio.Threading](https://www.nuget.org/packages/Microsoft.VisualStudio.Threading/) to get access to the `Forget()` extension method, which is useful for fire-and-forget calls to async methods, like **Track** or **Authenticate** in Monitor mode.
+- Fire-and-forget Castle calls (e.g. **Track** / **Authenticate** in monitor mode) use a
+  discard (`_ = client.Track(...)`) rather than an external dependency.
+- Client-side fingerprinting and secure mode are wired up in `Pages/Shared/_Layout.cshtml`.
 
-## The integration
+All Castle-related changes are marked with comments containing the word _Castle_ for easy
+searching, and primarily affect:
 
-The example application applies the steps described for the [Castle Baseline Integration](https://castle.io/docs/baseline), with the addition of [secure requests](https://castle.io/docs/securing_requests). All Castle-related changes are marked with comments containing the word _Castle_ for easy searching, and affect the following files:
+- `Program.cs` — service registration
+- `Areas/Identity/Pages/Account/Login.cshtml.cs` and the `Risk` / `Filter` / `Log` pages — SDK calls
+- `Pages/Shared/_Layout.cshtml` — client-side Castle
+- `appsettings.json` — your Castle API secret and App ID
 
-- `Startup.cs` Ioc
-- `Areas/Identity/Pages/Account/Login.cshtml.cs` Castle SDK calls
-- `Pages/Shared/_Layout.cshtml` Client-side Castle
-- `appsettings.json` Your Castle API secret and App ID
+### Run
 
-## Development testing
+```bash
+dotnet run --project src/CastleDemo/CastleDemo.csproj
+```
 
-# nuget add pathtonugetpackage.nupkg -source sourceDir
+Set your credentials in `appsettings.json` (or via environment / user secrets):
 
-# dotnet add package Castle.Sdk -s sourceDir
+```json
+"Castle": {
+  "ApiSecret": "YOUR API SECRET",
+  "AppId": "YOUR APP ID"
+}
+```
+
+### Docker
+
+```bash
+docker build -t castle-dotnet-example .
+docker run -p 8080:8080 -e Castle__ApiSecret=YOUR_API_SECRET castle-dotnet-example
+```
+
+## .NET Framework sample (`src/CastleDemo.Framework`)
+
+A minimal `net48` console app that adapts a `System.Web` request to
+`Castle.Context.FromHttpRequest(HttpRequestBase)` and sends a Risk request (with
+`DoNotTrack` enabled so it runs without a real secret). It builds and runs on Windows:
+
+```bash
+dotnet run --project src/CastleDemo.Framework/CastleDemo.Framework.csproj
+```
+
+This sample requires `Castle.Sdk` **2.4.0** or newer (the first version with a `net48` target).

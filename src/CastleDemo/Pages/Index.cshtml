@@ -1,10 +1,26 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Castle .NET demos";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Castle .NET SDK demo</h1>
+    <p>Each card below triggers a Castle API call so you can see the SDK in action.</p>
+</div>
+
+<div class="row">
+    @foreach (var demo in Model.Demos)
+    {
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">@demo.Title</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@demo.Api &mdash; <code>@demo.Event</code></h6>
+                    <p class="card-text">@demo.Blurb</p>
+                    <a class="btn btn-primary" asp-area="@demo.Area" asp-page="@demo.Page">Open demo</a>
+                </div>
+            </div>
+        </div>
+    }
 </div>
