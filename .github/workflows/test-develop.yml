@@ -1,0 +1,46 @@
+name: Test against SDK develop
+
+# Exercises the example apps against the unreleased Castle .NET SDK (develop
+# branch). Castle.Sdk is consumed as a NuGet package, so we clone, build and pack
+# the develop branch into a local feed and build the samples against it.
+#
+# This is the permanent test/sdk-develop branch: every push to it runs the suite
+# against the latest develop. Nightly/manual runs require this file to also live
+# on the default branch (GitHub only honours schedule/workflow_dispatch from the
+# default branch).
+on:
+  push:
+    branches: [test/sdk-develop]
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *"
+
+jobs:
+  core:
+    name: ASP.NET Core sample (Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Build Castle.Sdk from the develop branch
+        run: ./scripts/set-sdk-version.sh develop
+      - run: dotnet build src/CastleDemo/CastleDemo.csproj -c Release
+
+  framework:
+    name: .NET Framework sample (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+      - name: Build Castle.Sdk from the develop branch
+        run: ./scripts/set-sdk-version.sh develop
+        shell: bash
+      - run: dotnet build src/CastleDemo.Framework/CastleDemo.Framework.csproj -c Release

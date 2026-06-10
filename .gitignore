@@ -17,6 +17,10 @@ nupkg/
 *.userosscache
 *.sln.docstates
 
+# Local Castle.Sdk feed produced by scripts/set-sdk-version.sh
+.sdk-feed/
+nuget.config
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
