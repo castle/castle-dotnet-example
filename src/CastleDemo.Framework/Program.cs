@@ -28,7 +28,6 @@ namespace CastleDemo.Framework
 
             var headers = new NameValueCollection
             {
-                ["X-Castle-Client-ID"] = "the-client-id-from-castle-js",
                 ["X-Forwarded-For"] = "1.2.3.4"
             };
 
@@ -50,7 +49,6 @@ namespace CastleDemo.Framework
             var verdict = await client.Risk(actionRequest);
 
             Console.WriteLine("Castle .NET Framework sample");
-            Console.WriteLine($"  Resolved client id: {context.ClientId}");
             Console.WriteLine($"  Resolved ip:        {context.Ip}");
             Console.WriteLine($"  Verdict action:     {verdict?.Action}");
             Console.WriteLine($"  Failover:           {verdict?.Failover}");

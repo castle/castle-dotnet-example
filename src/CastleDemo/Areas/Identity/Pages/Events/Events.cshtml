@@ -1,0 +1,21 @@
+@page
+@model EventsModel
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <p>Fetch the events schema and run a query against event data (enterprise).</p>
+        <form method="post">
+            <button type="submit" class="btn btn-primary">Run Events demo</button>
+        </form>
+        @if (!string.IsNullOrEmpty(Model.Status))
+        {
+            <pre class="mt-3">@Model.Status</pre>
+        }
+    </div>
+</div>

@@ -89,8 +89,8 @@ namespace CastleDemo.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User logged in.");
 
-                    // Castle Authenticate $login.succeeded (fire-and-forget)
-                    _ = _castleClient.Authenticate(CreateCastleActionRequest("$login.succeeded"));
+                    // Castle Risk $login.succeeded (fire-and-forget)
+                    _ = _castleClient.Risk(CreateCastleActionRequest("$login.succeeded"));
 
                     return LocalRedirect(returnUrl);
                 }
@@ -105,8 +105,8 @@ namespace CastleDemo.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    // Castle Track $login.failed (fire-and-forget)
-                    _ = _castleClient.Track(CreateCastleActionRequest("$login.failed"));
+                    // Castle Log $login.failed (fire-and-forget)
+                    _ = _castleClient.Log(CreateCastleActionRequest("$login.failed"));
 
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();

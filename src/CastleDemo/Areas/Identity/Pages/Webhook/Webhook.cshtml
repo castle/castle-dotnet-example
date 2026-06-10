@@ -1,0 +1,21 @@
+@page
+@model WebhookModel
+
+@{
+    ViewData["Title"] = "Webhooks";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <p>Verify an incoming webhook against the <code>X-Castle-Signature</code> header.</p>
+        <form method="post">
+            <button type="submit" class="btn btn-primary">Run Webhook demo</button>
+        </form>
+        @if (!string.IsNullOrEmpty(Model.Status))
+        {
+            <pre class="mt-3">@Model.Status</pre>
+        }
+    </div>
+</div>

@@ -23,8 +23,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseInMemoryDatabase("CastleDemo"));
 ```
 
-- Fire-and-forget Castle calls (e.g. **Track** / **Authenticate** in monitor mode) use a
-  discard (`_ = client.Track(...)`) rather than an external dependency.
+- Fire-and-forget Castle calls (e.g. **Risk** / **Log** in monitor mode) use a
+  discard (`_ = client.Log(...)`) rather than an external dependency.
+- Demos cover **Risk**, **Filter**, **Log**, **Lists**, **Privacy**, **Events** and
+  **webhook verification** (see `Demos/DemoCatalog.cs`).
 - Client-side fingerprinting and secure mode are wired up in `Pages/Shared/_Layout.cshtml`.
 
 All Castle-related changes are marked with comments containing the word _Castle_ for easy

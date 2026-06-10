@@ -6,7 +6,7 @@
 		<UserSecretsId>aspnet-CastleDemo-708B0CB0-0EAA-415A-87AA-60C6A98D774C</UserSecretsId>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Castle.Sdk" Version="2.3.0" />
+		<PackageReference Include="Castle.Sdk" Version="3.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />

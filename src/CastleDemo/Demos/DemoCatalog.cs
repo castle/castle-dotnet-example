@@ -35,9 +35,9 @@ namespace CastleDemo.Demos
             new DemoInfo
             {
                 Title = "Login",
-                Api = "Authenticate / Track",
+                Api = "Risk / Log",
                 Event = "$login.succeeded / $login.failed",
-                Blurb = "Sign in to send an Authenticate request on success and a Track request on failure.",
+                Blurb = "Sign in to send a Risk request on success and a Log request on failure.",
                 Area = "Identity",
                 Page = "/Account/Login"
             },
@@ -67,6 +67,42 @@ namespace CastleDemo.Demos
                 Blurb = "Record an event for monitoring without affecting a verdict.",
                 Area = "Identity",
                 Page = "/Log/Log"
+            },
+            new DemoInfo
+            {
+                Title = "Lists",
+                Api = "Lists",
+                Event = "n/a",
+                Blurb = "Create a list, add an item, query it and clean up via the Lists API.",
+                Area = "Identity",
+                Page = "/Lists/Lists"
+            },
+            new DemoInfo
+            {
+                Title = "Privacy",
+                Api = "Privacy",
+                Event = "n/a",
+                Blurb = "Request and delete the data Castle stores for a user.",
+                Area = "Identity",
+                Page = "/Privacy/Privacy"
+            },
+            new DemoInfo
+            {
+                Title = "Events",
+                Api = "Events",
+                Event = "n/a",
+                Blurb = "Fetch the events schema and run a query against event data.",
+                Area = "Identity",
+                Page = "/Events/Events"
+            },
+            new DemoInfo
+            {
+                Title = "Webhooks",
+                Api = "Webhook",
+                Event = "n/a",
+                Blurb = "Verify an incoming webhook against the X-Castle-Signature header.",
+                Area = "Identity",
+                Page = "/Webhook/Webhook"
             }
         };
     }

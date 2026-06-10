@@ -1,0 +1,21 @@
+@page
+@model PrivacyModel
+
+@{
+    ViewData["Title"] = "Privacy";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <p>Request and then delete the data Castle stores for a user.</p>
+        <form method="post">
+            <button type="submit" class="btn btn-primary">Run Privacy demo</button>
+        </form>
+        @if (!string.IsNullOrEmpty(Model.Status))
+        {
+            <pre class="mt-3">@Model.Status</pre>
+        }
+    </div>
+</div>
