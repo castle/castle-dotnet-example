@@ -1,0 +1,93 @@
+@page "/login"
+@{
+    ViewData["Title"] = "login";
+}
+
+<div class="demo-layout">
+    <div>
+        <div class="card">
+            <div class="eyebrow">workflow</div>
+            <h2>login</h2>
+            <div id="ui">
+                <div class="btn-row" style="margin-top:0;">
+                    <button class="btn btn-ghost" onclick="fillForm('valid')">valid user + pw</button>
+                    <button class="btn btn-ghost" onclick="fillForm('bad_pw')">valid user, bad pw</button>
+                    <button class="btn btn-ghost" onclick="fillForm('bad_user')">invalid username</button>
+                </div>
+                <div style="margin-top:1.2rem;">
+                    <div class="field">
+                        <label for="email">email</label>
+                        <input class="input" type="text" id="email" autocomplete="off" />
+                    </div>
+                    <div class="field">
+                        <label for="password">password</label>
+                        <input class="input" type="password" id="password" />
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-primary" onclick="login()">Log in</button>
+                    </div>
+                    <div class="form-links">
+                        <a href="/password_reset">Forgot your password?</a>
+                        <a href="/signup">Create an account</a>
+                    </div>
+                </div>
+            </div>
+            <div id="desc" class="desc text-muted mt-4">
+                <p>A login reuses one request token across a two-step sequence:</p>
+                <ol>
+                    <li>the attempt is always filtered first &rarr; <code>$login / $attempted</code> sent to <code>/filter</code> (anonymous, so the email goes in <code>params</code>).</li>
+                    <li><strong>valid username + valid password</strong> &rarr; <code>$login / $succeeded</code> sent to <code>/risk</code>; act on the verdict (allow, challenge, deny).</li>
+                    <li><strong>wrong password / unknown user</strong> &rarr; <code>$login / $failed</code> sent to <code>/filter</code>.</li>
+                </ol>
+            </div>
+        </div>
+        <div id="results-card" class="card hidden mt-6">
+            <div class="eyebrow">result</div>
+            <div id="results"></div>
+        </div>
+    </div>
+    <aside>
+        <partial name="_SessionCard" />
+    </aside>
+</div>
+
+@section Scripts {
+<script>
+    function fillForm(state) {
+        var email = document.getElementById("email");
+        var password = document.getElementById("password");
+        if (state === "valid") {
+            email.value = DEMO.validUser;
+            password.value = DEMO.validPassword;
+        } else if (state === "bad_pw") {
+            email.value = DEMO.validUser;
+            password.value = DEMO.invalidPassword;
+        } else {
+            email.value = "invalid_user@@abc.com";
+            password.value = DEMO.invalidPassword;
+        }
+    }
+
+    function login() {
+        withRequestToken(function (requestToken) {
+            postJSON("/evaluate_login", {
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+                request_token: requestToken,
+            }).then(function (data) {
+                renderCastleSteps(data.steps);
+                var steps = data.steps || [];
+                var last = steps[steps.length - 1];
+                var action = last && last.result && last.result.policy && last.result.policy.action;
+                if (action === "allow") {
+                    var results = document.getElementById("results");
+                    var wrap = document.createElement("div");
+                    wrap.className = "result-block";
+                    wrap.innerHTML = '<a class="btn btn-primary" href="/account">Continue to your account &rarr;</a>';
+                    results.appendChild(wrap);
+                }
+            });
+        });
+    }
+</script>
+}

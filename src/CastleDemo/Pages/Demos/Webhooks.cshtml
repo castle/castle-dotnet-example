@@ -1,0 +1,46 @@
+@page "/webhooks"
+@model CastleDemo.Pages.Demos.WebhooksModel
+@{
+    ViewData["Title"] = "webhooks";
+}
+
+<div class="demo-layout">
+    <div>
+        <div class="card">
+            <div class="eyebrow">workflow</div>
+            <h2>webhooks</h2>
+            <div id="ui">
+                <p>This page lists the most recent webhooks Castle has delivered to this app. Each one is signature-verified before it is stored.</p>
+                <div class="field">
+                    <label>receiver endpoint</label>
+                    <input class="input" type="text" value="@Model.WebhookEndpoint" readonly onclick="this.select()" />
+                </div>
+                <div class="btn-row">
+                    <a class="btn" href="/webhooks">Refresh</a>
+                </div>
+
+                @if (Model.Received.Count > 0)
+                {
+                    foreach (var wh in Model.Received)
+                    {
+                        <div class="result-block mt-4">
+                            <div class="label">#@wh.Id · @wh.ReceivedAt</div>
+                            <pre class="json">@CastleDemo.Pages.Demos.WebhooksModel.Pretty(wh)</pre>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted mt-4">No webhooks received yet.</p>
+                }
+            </div>
+            <div id="desc" class="desc text-muted mt-4">
+                <p>Point a webhook at <code>@Model.WebhookEndpoint</code> from the Castle dashboard (Settings &rarr; Webhooks). Incoming requests are verified with <code>Castle.Webhook.Verify</code> against the <code>X-Castle-Signature</code> header; anything that fails verification gets a 404.</p>
+                <p>Because this demo runs on localhost, Castle needs a public tunnel (e.g. ngrok) to reach the receiver.</p>
+            </div>
+        </div>
+    </div>
+    <aside>
+        <partial name="_SessionCard" />
+    </aside>
+</div>

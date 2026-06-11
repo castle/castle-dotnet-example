@@ -2,31 +2,20 @@ using System.Collections.Generic;
 
 namespace CastleDemo.Demos
 {
-    /// <summary>
-    /// A single Castle demo scenario surfaced on the home page.
-    /// </summary>
+    /// <summary>A single workflow surfaced in the nav and on the home page.</summary>
     public class DemoInfo
     {
-        public string Title { get; set; }
+        /// <summary>URL slug, e.g. <c>signup</c> -&gt; <c>/signup</c>.</summary>
+        public string Slug { get; set; }
 
-        /// <summary>The Castle API used by the demo (Risk, Filter, Log, ...).</summary>
-        public string Api { get; set; }
-
-        /// <summary>The Castle event/type the demo sends.</summary>
-        public string Event { get; set; }
+        public string FriendlyName { get; set; }
 
         public string Blurb { get; set; }
-
-        /// <summary>Razor Page path used with <c>asp-page</c>.</summary>
-        public string Page { get; set; }
-
-        /// <summary>Razor Page area used with <c>asp-area</c> (empty for the root area).</summary>
-        public string Area { get; set; }
     }
 
     /// <summary>
-    /// Central registry of the demos shipped with this sample so they can be
-    /// listed in one place and linked from the home page.
+    /// Central registry of the workflows shipped with this sample so they can be
+    /// listed in one place (nav + home grid).
     /// </summary>
     public static class DemoCatalog
     {
@@ -34,75 +23,45 @@ namespace CastleDemo.Demos
         {
             new DemoInfo
             {
-                Title = "Login",
-                Api = "Risk / Log",
-                Event = "$login.succeeded / $login.failed",
-                Blurb = "Sign in to send a Risk request on success and a Log request on failure.",
-                Area = "Identity",
-                Page = "/Account/Login"
+                Slug = "signup",
+                FriendlyName = "sign up",
+                Blurb = "Filter a registration ($registration) before the account exists."
             },
             new DemoInfo
             {
-                Title = "Risk",
-                Api = "Risk",
-                Event = "$profile_update",
-                Blurb = "Send a synchronous Risk request and inspect the verdict.",
-                Area = "Identity",
-                Page = "/Risk/Risk"
+                Slug = "login",
+                FriendlyName = "login",
+                Blurb = "Filter the attempt, then assess a successful login with Risk."
             },
             new DemoInfo
             {
-                Title = "Filter",
-                Api = "Filter",
-                Event = "$custom",
-                Blurb = "Evaluate a pre-authentication event such as a custom abuse signal.",
-                Area = "Identity",
-                Page = "/Filter/Filter"
+                Slug = "account",
+                FriendlyName = "account",
+                Blurb = "Update your profile, send a custom event, and log out."
             },
             new DemoInfo
             {
-                Title = "Log",
-                Api = "Log",
-                Event = "$challenge",
-                Blurb = "Record an event for monitoring without affecting a verdict.",
-                Area = "Identity",
-                Page = "/Log/Log"
+                Slug = "password_reset",
+                FriendlyName = "password reset",
+                Blurb = "Record a password-reset event with the non-blocking log endpoint."
             },
             new DemoInfo
             {
-                Title = "Lists",
-                Api = "Lists",
-                Event = "n/a",
-                Blurb = "Create a list, add an item, query it and clean up via the Lists API.",
-                Area = "Identity",
-                Page = "/Lists/Lists"
+                Slug = "lists",
+                FriendlyName = "lists",
+                Blurb = "Create and fetch lists with the Lists API."
             },
             new DemoInfo
             {
-                Title = "Privacy",
-                Api = "Privacy",
-                Event = "n/a",
-                Blurb = "Request and delete the data Castle stores for a user.",
-                Area = "Identity",
-                Page = "/Privacy/Privacy"
+                Slug = "privacy",
+                FriendlyName = "privacy",
+                Blurb = "Request or delete a user's data with the Privacy API."
             },
             new DemoInfo
             {
-                Title = "Events",
-                Api = "Events",
-                Event = "n/a",
-                Blurb = "Fetch the events schema and run a query against event data.",
-                Area = "Identity",
-                Page = "/Events/Events"
-            },
-            new DemoInfo
-            {
-                Title = "Webhooks",
-                Api = "Webhook",
-                Event = "n/a",
-                Blurb = "Verify an incoming webhook against the X-Castle-Signature header.",
-                Area = "Identity",
-                Page = "/Webhook/Webhook"
+                Slug = "webhooks",
+                FriendlyName = "webhooks",
+                Blurb = "Verify and inspect incoming Castle webhooks."
             }
         };
     }

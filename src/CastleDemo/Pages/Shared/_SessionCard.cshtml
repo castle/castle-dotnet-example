@@ -1,0 +1,9 @@
+@inject CastleDemo.Demos.DemoConfig Demo
+<div class="card">
+    <div class="eyebrow">session</div>
+    <ul class="meta-list">
+        <li><span class="k">publishable key</span><span class="v">@(string.IsNullOrEmpty(Demo.Pk) ? "—" : Demo.Pk)</span></li>
+        <li><span class="k">valid username</span><span class="v">@Demo.ValidUsername</span></li>
+        <li><span class="k">valid password</span><span class="v">@Demo.ValidPassword</span></li>
+    </ul>
+</div>
