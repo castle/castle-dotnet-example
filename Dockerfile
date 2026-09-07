@@ -4,7 +4,7 @@ WORKDIR /app
 COPY src/CastleDemo/package.json ./
 RUN npm install --omit=dev --no-audit --no-fund
 
-# Pack Castle.Sdk from develop into a local feed until 3.0.0 is on NuGet.
+# Pack Castle.Sdk from main into a local feed until 3.0.0 is on NuGet.
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 RUN apt-get update && apt-get install -y --no-install-recommends git \
@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends git \
 COPY scripts/set-sdk-version.sh scripts/
 COPY src/CastleDemo/CastleDemo.csproj src/CastleDemo/
 COPY src/CastleDemo.Framework/CastleDemo.Framework.csproj src/CastleDemo.Framework/
-RUN ./scripts/set-sdk-version.sh develop
+RUN ./scripts/set-sdk-version.sh main
 COPY src/CastleDemo/ src/CastleDemo/
 RUN dotnet publish src/CastleDemo/CastleDemo.csproj -c Release -o /app/publish
 

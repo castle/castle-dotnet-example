@@ -1,16 +1,16 @@
-name: Test against SDK develop
+name: Test against SDK main
 
-# Exercises the example apps against the unreleased Castle .NET SDK. Castle.Sdk is
-# consumed as a NuGet package, so we clone, build and pack the SDK develop branch
-# into a local feed and build the samples against it.
+# Exercises the example apps against the unreleased Castle .NET SDK (main
+# branch). Castle.Sdk is consumed as a NuGet package, so we clone, build and
+# pack the SDK main branch into a local feed and build the samples against it.
 #
-# This is the permanent test/sdk-develop branch: every push to it runs the suite
-# against develop. Nightly/manual runs require this file to also live on the
-# default branch (GitHub only honours schedule/workflow_dispatch from the
-# default branch).
+# This is the permanent test/sdk-main branch: every push to it runs the suite
+# against the latest main. Nightly/manual runs require this file to also live
+# on the default branch (GitHub only honours schedule/workflow_dispatch from
+# the default branch).
 on:
   push:
-    branches: [test/sdk-develop]
+    branches: [test/sdk-main]
   workflow_dispatch:
   schedule:
     - cron: "0 6 * * *"
@@ -26,8 +26,8 @@ jobs:
           dotnet-version: |
             8.0.x
             10.0.x
-      - name: Build Castle.Sdk from develop
-        run: ./scripts/set-sdk-version.sh develop
+      - name: Build Castle.Sdk from main
+        run: ./scripts/set-sdk-version.sh main
       - run: dotnet build src/CastleDemo/CastleDemo.csproj -c Release
 
   framework:
@@ -40,7 +40,7 @@ jobs:
           dotnet-version: |
             8.0.x
             10.0.x
-      - name: Build Castle.Sdk from develop
-        run: ./scripts/set-sdk-version.sh develop
+      - name: Build Castle.Sdk from main
+        run: ./scripts/set-sdk-version.sh main
         shell: bash
       - run: dotnet build src/CastleDemo.Framework/CastleDemo.Framework.csproj -c Release

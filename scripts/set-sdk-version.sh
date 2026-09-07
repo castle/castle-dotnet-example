@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Point the example apps at a specific Castle .NET SDK source.
 #
-#   set-sdk-version.sh develop   -> build the SDK's develop branch from source and consume it locally
+#   set-sdk-version.sh main      -> build the SDK's main branch from source and consume it locally
 #   set-sdk-version.sh <branch>  -> same, for any castle-dotnet branch (e.g. a release branch)
 #   set-sdk-version.sh 3.0.0     -> pin the released Castle.Sdk 3.0.0 package from NuGet
 #
@@ -11,7 +11,7 @@
 # so off Windows the SDK is packed for net8.0 only (enough for the ASP.NET Core sample).
 set -euo pipefail
 
-target="${1:?usage: set-sdk-version.sh <develop|branch|X.Y.Z>}"
+target="${1:?usage: set-sdk-version.sh <main|branch|X.Y.Z>}"
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 

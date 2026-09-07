@@ -71,8 +71,8 @@ dotnet run --project src/CastleDemo/CastleDemo.csproj
 ```
 
 > **Note:** Castle.Sdk 3.0.0 is not yet on NuGet. Until it is published, build
-> the SDK from `develop` and consume it locally with
-> `./scripts/set-sdk-version.sh develop`.
+> the SDK from `main` and consume it locally with
+> `./scripts/set-sdk-version.sh main`.
 
 ## Running with Docker
 
