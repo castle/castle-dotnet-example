@@ -5,6 +5,6 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "@castleio/castle-js": "^2.8.4"
+    "@castleio/castle-js": "^2.8.5"
   }
 }
