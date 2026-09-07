@@ -38,7 +38,7 @@
     </script>
     <script src="~/vendor/castle-js/castle.umd.js"></script>
     <script>
-        window.Castle = window.Castle || (window.module && window.module.exports) || window["@castleio/castle-js"];
+        window.Castle = window.Castle || (window.module && window.module.exports) || window["@@castleio/castle-js"];
         if (window.Castle && window.DEMO.pk) {
             window.__castle = Castle.configure({ pk: window.DEMO.pk }) || window.Castle;
         }

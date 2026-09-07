@@ -192,7 +192,7 @@ static IResult Json(JObject body)
     return Results.Text(body.ToString(Formatting.None), "application/json");
 }
 
-static string? ResolveCastleJs(string dist, string filename)
+static string ResolveCastleJs(string dist, string filename)
 {
     var names = filename switch
     {
