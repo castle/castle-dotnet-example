@@ -4,6 +4,9 @@
   "description": "ASP.NET Core app demonstrating key Castle workflows on top of the Castle .NET SDK.",
   "private": true,
   "license": "MIT",
+  "scripts": {
+    "postinstall": "node scripts/ensure-castle-umd.js"
+  },
   "dependencies": {
     "@castleio/castle-js": "^2.8.5"
   }

@@ -61,18 +61,6 @@ app.UseRouting();
 
 app.MapRazorPages();
 
-// 2.x ships castle.browser.js; 3.x ships castle.umd.js. The HTML always requests castle.umd.js.
-app.MapGet("/vendor/castle-js/{filename}", (string filename) =>
-{
-    if (!Directory.Exists(castleJsDist))
-    {
-        return Results.NotFound();
-    }
-
-    var path = ResolveCastleJs(castleJsDist, filename);
-    return path is null ? Results.NotFound() : Results.File(path, "application/javascript");
-});
-
 // --- JSON evaluation endpoints (called by the browser demo pages) ----------
 
 app.MapPost("/evaluate_signup", async (HttpRequest req, CastleFlows flows) =>
@@ -190,30 +178,4 @@ static string Str(JObject input, string key)
 static IResult Json(JObject body)
 {
     return Results.Text(body.ToString(Formatting.None), "application/json");
-}
-
-static string ResolveCastleJs(string dist, string filename)
-{
-    var names = filename switch
-    {
-        "castle.umd.js" => new[] { "castle.umd.js", "castle.browser.js" },
-        "castle.browser.js" => new[] { "castle.browser.js", "castle.umd.js" },
-        _ => new[] { filename }
-    };
-    var root = Path.GetFullPath(dist);
-    foreach (var name in names)
-    {
-        var candidate = Path.GetFullPath(Path.Combine(root, name));
-        if (!candidate.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.Ordinal))
-        {
-            continue;
-        }
-
-        if (File.Exists(candidate))
-        {
-            return candidate;
-        }
-    }
-
-    return null;
 }
