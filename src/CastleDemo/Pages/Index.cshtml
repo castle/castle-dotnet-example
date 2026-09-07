@@ -1,10 +1,21 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "localhost";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<section class="hero">
+    <span class="tag">castle · .net</span>
+    <h1>Castle workflows demo</h1>
+    <p>A small ASP.NET Core app showing how to integrate the Castle .NET SDK.</p>
+</section>
+
+<div class="feature-grid">
+    @foreach (var demo in Model.Demos)
+    {
+        <a class="feature" href="/@demo.Slug">
+            <h3>@demo.FriendlyName</h3>
+            <p>@demo.Blurb</p>
+        </a>
+    }
 </div>

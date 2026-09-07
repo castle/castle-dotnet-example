@@ -1,0 +1,9 @@
+**/bin/
+**/obj/
+**/node_modules/
+.git
+.sdk-feed/
+nuget.config
+.vs/
+.vscode/
+.idea/

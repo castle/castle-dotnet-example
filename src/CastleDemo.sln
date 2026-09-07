@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.438
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CastleDemo", "CastleDemo\CastleDemo.csproj", "{155A2766-3EE6-42EC-9A73-A835C190E89E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CastleDemo.Framework", "CastleDemo.Framework\CastleDemo.Framework.csproj", "{A9116005-AC8D-4F84-8375-0C41D9F5EF3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{155A2766-3EE6-42EC-9A73-A835C190E89E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{155A2766-3EE6-42EC-9A73-A835C190E89E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{155A2766-3EE6-42EC-9A73-A835C190E89E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9116005-AC8D-4F84-8375-0C41D9F5EF3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9116005-AC8D-4F84-8375-0C41D9F5EF3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9116005-AC8D-4F84-8375-0C41D9F5EF3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9116005-AC8D-4F84-8375-0C41D9F5EF3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,51 @@
+@page "/privacy"
+@inject CastleDemo.Demos.DemoConfig Demo
+@{
+    ViewData["Title"] = "privacy";
+}
+
+<div class="demo-layout">
+    <div>
+        <div class="card">
+            <div class="eyebrow">workflow</div>
+            <h2>privacy</h2>
+            <div id="ui">
+                <div class="field">
+                    <label for="identifier">identifier</label>
+                    <input class="input" type="text" id="identifier" value="@Demo.ValidUsername" />
+                </div>
+                <div class="field">
+                    <label for="identifier_type">identifier type</label>
+                    <input class="input" type="text" id="identifier_type" value="$email" />
+                </div>
+                <div class="btn-row">
+                    <button class="btn btn-primary" onclick="privacy('request')">Request user data</button>
+                    <button class="btn" onclick="privacy('delete')">Delete user data</button>
+                </div>
+            </div>
+            <div id="desc" class="desc text-muted mt-4">
+                <p>The <strong>Privacy</strong> API helps you honor GDPR/CCPA requests via <code>RequestUserData</code> and <code>DeleteUserData</code>.</p>
+                <p>A valid Castle API secret is required for these calls to succeed.</p>
+            </div>
+        </div>
+        <div id="results-card" class="card hidden mt-6">
+            <div class="eyebrow">result</div>
+            <div id="results"></div>
+        </div>
+    </div>
+    <aside>
+        <partial name="_SessionCard" />
+    </aside>
+</div>
+
+@section Scripts {
+<script>
+    function privacy(action) {
+        postJSON("/privacy_user_data", {
+            action: action,
+            identifier: document.getElementById("identifier").value,
+            identifier_type: document.getElementById("identifier_type").value,
+        }).then(renderCastleResponse);
+    }
+</script>
+}

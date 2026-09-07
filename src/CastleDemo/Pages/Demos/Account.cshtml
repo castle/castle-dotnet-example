@@ -1,0 +1,86 @@
+@page "/account"
+@inject CastleDemo.Demos.DemoConfig Demo
+@{
+    ViewData["Title"] = "account";
+}
+
+<div class="demo-layout">
+    <div>
+        <div class="card">
+            <div class="eyebrow">workflow</div>
+            <h2>account</h2>
+            <div id="ui">
+                <p class="text-muted" style="margin-top:0;">Signed in as <code>@Demo.ValidUsername</code>. These actions run once a user is authenticated.</p>
+                <div style="margin-top:1.2rem;">
+                    <div class="field">
+                        <label for="name">name</label>
+                        <input class="input" type="text" id="name" value="@Demo.ValidName" />
+                    </div>
+                    <div class="field">
+                        <label for="email">email</label>
+                        <input class="input" type="text" id="email" value="@Demo.ValidUsername" />
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-primary" onclick="updateProfile()">Save changes</button>
+                        <button class="btn btn-ghost" onclick="sendCustomEvent()">Send a custom event</button>
+                        <button class="btn" onclick="logout()">Log out</button>
+                    </div>
+                </div>
+            </div>
+            <div id="desc" class="desc text-muted mt-4">
+                <p>The post-login actions each mint a fresh request token from <code>castle.js</code>:</p>
+                <ol>
+                    <li><strong>profile update</strong> &rarr; <code>$profile_update</code> sent to <code>/risk</code>.</li>
+                    <li><strong>custom event</strong> &rarr; <code>Castle.custom()</code> in the browser.</li>
+                    <li><strong>logout</strong> &rarr; <code>$logout</code> via the non-blocking <code>/log</code> endpoint.</li>
+                </ol>
+            </div>
+        </div>
+        <div id="results-card" class="card hidden mt-6">
+            <div class="eyebrow">result</div>
+            <div id="results"></div>
+        </div>
+    </div>
+    <aside>
+        <partial name="_SessionCard" />
+    </aside>
+</div>
+
+@section Scripts {
+<script>
+    function updateProfile() {
+        withRequestToken(function (requestToken) {
+            postJSON("/evaluate_profile_update", {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                request_token: requestToken,
+            }).then(renderCastleResponse);
+        });
+    }
+
+    function sendCustomEvent() {
+        if (window.Castle && typeof Castle.custom === "function") {
+            try {
+                Castle.custom({
+                    name: "$custom",
+                    user: { id: DEMO.validUserId || DEMO.validUser, email: DEMO.validUser },
+                    properties: { source: "account-page" },
+                });
+            } catch (e) {
+                console.error("Castle.custom failed", e);
+            }
+        }
+        clearResults();
+        addJSONBlock("Custom event sent (browser)", { name: "$custom", user: { email: DEMO.validUser } });
+        showResultsCard();
+    }
+
+    function logout() {
+        withRequestToken(function (requestToken) {
+            postJSON("/evaluate_logout", {
+                request_token: requestToken,
+            }).then(renderCastleResponse);
+        });
+    }
+</script>
+}

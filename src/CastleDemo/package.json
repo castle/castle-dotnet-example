@@ -1,0 +1,10 @@
+{
+  "name": "castle-dotnet-example",
+  "version": "1.0.0",
+  "description": "ASP.NET Core app demonstrating key Castle workflows on top of the Castle .NET SDK.",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "@castleio/castle-js": "^2.8.4"
+  }
+}

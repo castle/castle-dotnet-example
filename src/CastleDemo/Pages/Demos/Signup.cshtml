@@ -1,0 +1,92 @@
+@page "/signup"
+@{
+    ViewData["Title"] = "sign up";
+}
+
+<div class="demo-layout">
+    <div>
+        <div class="card">
+            <div class="eyebrow">workflow</div>
+            <h2>sign up</h2>
+            <div id="ui">
+                <div class="btn-row" style="margin-top:0;">
+                    <button class="btn btn-ghost" onclick="fillForm('new')">new user</button>
+                    <button class="btn btn-ghost" onclick="fillForm('existing')">existing email</button>
+                </div>
+                <div style="margin-top:1.2rem;">
+                    <div class="field">
+                        <label for="name">name</label>
+                        <input class="input" type="text" id="name" autocomplete="off" />
+                    </div>
+                    <div class="field">
+                        <label for="email">email</label>
+                        <input class="input" type="text" id="email" autocomplete="off" />
+                    </div>
+                    <div class="field">
+                        <label for="password">password</label>
+                        <input class="input" type="password" id="password" />
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-primary" onclick="signup()">Create account</button>
+                    </div>
+                    <div class="form-links">
+                        <a href="/login">Already have an account? Log in</a>
+                    </div>
+                </div>
+            </div>
+            <div id="desc" class="desc text-muted mt-4">
+                <p>A registration is evaluated before the account exists, so it is anonymous activity sent to <code>/filter</code> with the form <code>params</code>:</p>
+                <ol>
+                    <li><strong>a new email</strong> &rarr; <code>$registration / $attempted</code>; act on the verdict (allow, challenge, deny) before creating the account.</li>
+                    <li><strong>an email that already exists</strong> &rarr; <code>$registration / $failed</code> (resolved to the existing user via <code>matching_user_id</code>).</li>
+                </ol>
+            </div>
+        </div>
+        <div id="results-card" class="card hidden mt-6">
+            <div class="eyebrow">result</div>
+            <div id="results"></div>
+        </div>
+    </div>
+    <aside>
+        <partial name="_SessionCard" />
+    </aside>
+</div>
+
+@section Scripts {
+<script>
+    function fillForm(state) {
+        var name = document.getElementById("name");
+        var email = document.getElementById("email");
+        var password = document.getElementById("password");
+        if (state === "existing") {
+            name.value = DEMO.validName;
+            email.value = DEMO.validUser;
+        } else {
+            name.value = DEMO.newUserName;
+            email.value = DEMO.newUserEmail;
+        }
+        password.value = DEMO.validPassword;
+    }
+
+    function signup() {
+        withRequestToken(function (requestToken) {
+            postJSON("/evaluate_signup", {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+                request_token: requestToken,
+            }).then(function (data) {
+                renderCastleResponse(data);
+                var action = data.result && data.result.policy && data.result.policy.action;
+                if (action === "allow") {
+                    var results = document.getElementById("results");
+                    var wrap = document.createElement("div");
+                    wrap.className = "result-block";
+                    wrap.innerHTML = '<a class="btn btn-primary" href="/account">Continue to your account &rarr;</a>';
+                    results.appendChild(wrap);
+                }
+            });
+        });
+    }
+</script>
+}

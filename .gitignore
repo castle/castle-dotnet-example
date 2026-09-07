@@ -17,6 +17,10 @@ nupkg/
 *.userosscache
 *.sln.docstates
 
+# Local Castle.Sdk feed produced by scripts/set-sdk-version.sh
+.sdk-feed/
+nuget.config
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -37,3 +41,7 @@ msbuild.wrn
 .vs/
 
 packages/
+
+# npm (Castle browser SDK is installed via npm and served from node_modules)
+node_modules/
+npm-debug.log
