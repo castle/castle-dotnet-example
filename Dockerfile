@@ -4,13 +4,17 @@ WORKDIR /app
 COPY src/CastleDemo/package.json ./
 RUN npm install --omit=dev --no-audit --no-fund
 
-# Build and publish the ASP.NET Core CastleDemo sample.
+# Pack Castle.Sdk from develop into a local feed until 3.0.0 is on NuGet.
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY src/CastleDemo/CastleDemo.csproj CastleDemo/
-RUN dotnet restore CastleDemo/CastleDemo.csproj
-COPY src/CastleDemo/ CastleDemo/
-RUN dotnet publish CastleDemo/CastleDemo.csproj -c Release -o /app/publish
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/*
+COPY scripts/set-sdk-version.sh scripts/
+COPY src/CastleDemo/CastleDemo.csproj src/CastleDemo/
+COPY src/CastleDemo.Framework/CastleDemo.Framework.csproj src/CastleDemo.Framework/
+RUN ./scripts/set-sdk-version.sh develop
+COPY src/CastleDemo/ src/CastleDemo/
+RUN dotnet publish src/CastleDemo/CastleDemo.csproj -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
