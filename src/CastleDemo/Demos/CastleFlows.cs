@@ -126,10 +126,10 @@ namespace CastleDemo.Demos
         {
             var status = password == _cfg.ValidPassword ? "$failed" : "$succeeded";
 
-            var payload = BuildPayload("$password_reset", status, requestToken, http);
+            var payload = BuildPayload("$profile_reset", status, requestToken, http);
             payload["user"] = AuthenticatedUser(_cfg.ValidUsername);
 
-            return await RunSingle("log", "$password_reset", status, payload);
+            return await RunSingle("log", "$profile_reset", status, payload);
         }
 
         // --- lists ---------------------------------------------------------
