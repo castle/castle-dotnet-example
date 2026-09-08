@@ -43,7 +43,7 @@ namespace CastleDemo.Demos
             {
                 Slug = "password_reset",
                 FriendlyName = "password reset",
-                Blurb = "Record a password-reset event with the non-blocking log endpoint."
+                Blurb = "Record a password-reset event ($profile_reset) with the non-blocking log endpoint."
             },
             new DemoInfo
             {
