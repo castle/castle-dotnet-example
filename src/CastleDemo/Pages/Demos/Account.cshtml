@@ -59,9 +59,10 @@
     }
 
     function sendCustomEvent() {
-        if (window.Castle && typeof Castle.custom === "function") {
+        var sdk = castleClient();
+        if (sdk && typeof sdk.custom === "function") {
             try {
-                Castle.custom({
+                sdk.custom({
                     name: "$custom",
                     user: { id: DEMO.validUserId || DEMO.validUser, email: DEMO.validUser },
                     properties: { source: "account-page" },
