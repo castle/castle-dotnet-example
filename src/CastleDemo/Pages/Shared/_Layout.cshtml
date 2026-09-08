@@ -29,10 +29,18 @@
     <script>
         window.DEMO = @Html.Raw(demoJson);
     </script>
-    <script src="~/vendor/castle-js/castle.browser.js"></script>
     <script>
+        if (!window.Castle) {
+            window.exports = window.exports || {};
+            window.module = window.module || { exports: window.exports };
+            window.Castle = window.module.exports;
+        }
+    </script>
+    <script src="~/vendor/castle-js/castle.umd.js"></script>
+    <script>
+        window.Castle = window.Castle || (window.module && window.module.exports) || window["@@castleio/castle-js"];
         if (window.Castle && window.DEMO.pk) {
-            Castle.configure({ pk: window.DEMO.pk });
+            window.__castle = Castle.configure({ pk: window.DEMO.pk }) || window.Castle;
         }
     </script>
     <script src="~/js/app.js" defer></script>
