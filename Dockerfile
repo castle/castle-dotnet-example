@@ -1,8 +1,9 @@
 # Install the Castle browser SDK from npm (served at runtime from node_modules).
 FROM node:20-slim AS frontend
 WORKDIR /app
-COPY src/CastleDemo/package.json ./
-RUN npm install --omit=dev --no-audit --no-fund
+COPY src/CastleDemo/package.json src/CastleDemo/package-lock.json ./
+COPY src/CastleDemo/scripts ./scripts
+RUN npm ci --omit=dev --no-audit --no-fund
 
 # Pack Castle.Sdk from main into a local feed until 3.0.0 is on NuGet.
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
